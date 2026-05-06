@@ -1,4 +1,4 @@
-# 📊 Automação de Lançamento de Apontamentos - Contmatic Phoenix
+# 📊 Automação de Lançamento de Apontamentos
 
 Aplicação desktop desenvolvida em Python para automatizar o lançamento de apontamentos de funcionários no sistema **Contmatic Phoenix**, utilizando leitura de planilhas Excel e automação de interface gráfica.
 
