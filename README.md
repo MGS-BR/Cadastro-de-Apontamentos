@@ -1,5 +1,11 @@
 # 📊 Automação de Lançamento de Apontamentos
 
+![Python](https://img.shields.io/badge/Python-3.14-blue)
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/MGS-BR/Cadastro-de-Apontamentos/blob/main/LICENSE)
+[![Python CI](https://github.com/MGS-BR/Cadastro-de-Apontamentos/actions/workflows/ci.yml/badge.svg)](https://github.com/MGS-BR/Cadastro-de-Apontamentos/actions/workflows/ci.yml)
+[![Build EXE](https://github.com/MGS-BR/Cadastro-de-Apontamentos/actions/workflows/build.yml/badge.svg)](https://github.com/MGS-BR/Cadastro-de-Apontamentos/actions/workflows/build.yml)
+
 Aplicação desktop desenvolvida em Python para automatizar o lançamento de apontamentos de funcionários no sistema **Contmatic Phoenix**, utilizando leitura de planilhas Excel e automação de interface gráfica.
 
 ---
@@ -12,7 +18,7 @@ Eliminar o trabalho manual e repetitivo de digitação de eventos e valores no s
 
 ## 🛠️ Tecnologias Utilizadas
 
-* Python 3.4
+* Python 3
 * Tkinter (interface gráfica)
 * Pandas (leitura e manipulação de planilhas)
 * PyAutoGUI (automação de mouse e teclado)
