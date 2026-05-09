@@ -530,7 +530,7 @@ class Application:
 
             print("FAILSAFE acionado.")
 
-        except Exception as e:
+        except Exception:
             import traceback
 
             traceback.print_exc()
