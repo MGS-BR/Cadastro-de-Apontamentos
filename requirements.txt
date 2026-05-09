@@ -1,0 +1,6 @@
+pandas
+pyautogui
+keyboard
+tkcalendar
+openpyxl
+pyinstaller
