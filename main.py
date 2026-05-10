@@ -82,7 +82,7 @@ class Application:
         titulo = Label(header, text="Lançar Apontamentos", font=self.fontePadraoBold)
         titulo.grid(row=0, column=1, sticky="e")
 
-        configBtn = Button(header, text="⚙")
+        configBtn = Button(header, text="⚙", command=self.config)
         configBtn.grid(row=0, column=2)
 
         forms = Frame(container)
@@ -193,14 +193,14 @@ class Application:
 
         janela.geometry(f"+{x}+{y}")
 
-    def selecionar_arquivo(self, entry):
+    def selecionar_arquivo(self, entry, types=None):
+
+        if types is None:
+            types = [("Arquivos Excel", "*.xls *.xlsx"), ("Todos os arquivos", "*.*")]
 
         caminho = filedialog.askopenfilename(
             title="Selecionar planilha",
-            filetypes=[
-                ("Arquivos Excel", "*.xls *.xlsx"),
-                ("Todos os arquivos", "*.*"),
-            ],
+            filetypes=types,
         )
 
         if caminho:
@@ -394,6 +394,98 @@ class Application:
     def gravar(self):
 
         self.safe_click(840, 330)
+
+    def config(self):
+
+        janelaConfig = Toplevel(self.master)
+        janelaConfig.title("Configurações")
+
+        janelaConfig.transient(self.master)
+        janelaConfig.grab_set()
+
+        janelaConfig.minsize(450, 550)
+
+        janelaConfig.configure(padx=20, pady=20)
+
+        janelaConfig.grid_columnconfigure(0, weight=1)
+        janelaConfig.grid_columnconfigure(1, weight=1)
+
+        Label(janelaConfig, text="Configurações:", font=self.fontePadraoBold).grid(
+            row=0, column=0, columnspan=3, pady=20
+        )
+
+        Label(
+            janelaConfig,
+            text="Importar configurações:",
+            font=self.fontePadrao,
+        ).grid(row=1, column=0, columnspan=3)
+
+        importarEntry = Entry(janelaConfig, font=self.fontePadrao, width=30)
+        importarEntry.grid(row=2, column=0, sticky="e", pady=5)
+
+        importarBtnFile = Button(
+            janelaConfig,
+            text="📁",
+            command=lambda: self.selecionar_arquivo(
+                importarEntry,
+                types=[("Arquivos JSON", "*.json"), ("Todos os arquivos", "*.*")],
+            ),
+        )
+        importarBtnFile.grid(row=2, column=1, sticky="w", padx=5)
+
+        importarLabel = Label(
+            janelaConfig, text="Configuração selecionada: Padrão", font=self.fontePadrao
+        )
+        importarLabel.grid(row=3, column=0, columnspan=3)
+
+        importarBtn = Button(
+            janelaConfig, text="Importar Configuração", font=self.fontePadrao
+        )
+        importarBtn.grid(row=4, column=0, columnspan=3, pady=5)
+
+        Label(janelaConfig, text="Personalização:", font=self.fontePadraoBold).grid(
+            row=5, column=0, columnspan=3, pady=20
+        )
+
+        personalizarBtn = Button(
+            janelaConfig, text="Personalizar Configuração", font=self.fontePadrao
+        )
+        personalizarBtn.grid(row=6, column=0, columnspan=3, pady=5)
+
+        Label(
+            janelaConfig,
+            text="Utilize a opção de personalizar configurações para ajustar os cliques de acordo com a resolução do seu sistema.",
+            font=self.fontePadrao,
+            wraplength=350,
+            justify="left",
+            anchor="w",
+        ).grid(row=7, column=0, columnspan=3, pady=5)
+
+        gerarPlanilhaBtn = Button(
+            janelaConfig, text="Gerar Planilha Exemplo", font=self.fontePadrao
+        )
+        gerarPlanilhaBtn.grid(row=8, column=0, columnspan=3, pady=5)
+
+        Label(
+            janelaConfig,
+            text="Gere uma planilha exemplo para entender melhor o formato necessário para o funcionamento do sistema.",
+            font=self.fontePadrao,
+            wraplength=350,
+            justify="left",
+            anchor="w",
+        ).grid(row=9, column=0, columnspan=3, pady=5)
+
+        frameBtnConfig = Frame(janelaConfig)
+        frameBtnConfig.grid(row=10, column=0, columnspan=3, pady=25)
+
+        Button(
+            frameBtnConfig, text="Sair", command=janelaConfig.destroy, width=12
+        ).pack(side=LEFT, padx=5)
+        Button(
+            frameBtnConfig, text="Confirmar", command=janelaConfig.destroy, width=12
+        ).pack(side=LEFT, padx=5)
+
+        self.centralizar_janela(janelaConfig)
 
     def executar(self):
 
