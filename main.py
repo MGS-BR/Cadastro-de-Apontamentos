@@ -12,7 +12,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import ttk
 from openpyxl import load_workbook
-from openpyxl.styles import Font, Alignment, Border, Side
+from openpyxl.styles import Font, Alignment
 from openpyxl.utils import get_column_letter
 
 
