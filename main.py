@@ -11,6 +11,9 @@ from tkinter import scrolledtext
 from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import ttk
+from openpyxl import load_workbook
+from openpyxl.styles import Font, Alignment, Border, Side
+from openpyxl.utils import get_column_letter
 
 
 class TextRedirector:
@@ -462,7 +465,7 @@ class Application:
         ).grid(row=7, column=0, columnspan=3, pady=5)
 
         gerarPlanilhaBtn = Button(
-            janelaConfig, text="Gerar Planilha Exemplo", font=self.fontePadrao
+            janelaConfig, text="Gerar Planilha Exemplo", font=self.fontePadrao, command=self.gerarPlanilha
         )
         gerarPlanilhaBtn.grid(row=8, column=0, columnspan=3, pady=5)
 
@@ -486,6 +489,81 @@ class Application:
         ).pack(side=LEFT, padx=5)
 
         self.centralizar_janela(janelaConfig)
+
+    def gerarPlanilha(self):
+        
+        arquivo = filedialog.asksaveasfilename(
+            title = "Salvar planilha",
+            defaultextension=".xlsx",
+            filetypes=[("Arquivos Excel", "*.xlsx")],
+            initialfile="planilha_apontamento.xlsx"
+        )
+        
+        if arquivo:
+            
+            dados = [
+                # Código, Nome, Cargo, Salário, Evento, Descrição, Ref./Valor, Tipo Empregado
+                [10, "Pedro Henrique", "AUX", 1000, 39, "100%", 10, "Mensalista"]
+            ]
+
+            colunas = [
+                "Código", "Nome", "Cargo", "Salário", "Evento", "Descrição", "Ref./Valor", "Tipo Empregado"
+            ]
+
+            df = pd.DataFrame(dados, columns=colunas)
+
+            with pd.ExcelWriter(arquivo, engine='openpyxl') as writer:
+
+                df.to_excel(writer, index=False, startrow=3)
+
+                ws = writer.sheets["Sheet1"]
+
+                ws["A1"] = "Planilha de Apontamento"
+                ws["E1"] = "Referência"
+                ws["F1"] = "Mês/Ano"
+                ws["A2"] = "Razão Social"
+                ws["B2"] = "Nome da empresa"
+                ws["E2"] = "CNPJ/CEI/CPF:"
+                ws["F2"] = "00.000.000/0000-00"
+
+            wb = load_workbook(arquivo)
+            ws = wb["Sheet1"]
+
+            bold = Font(bold=True)
+
+            center = Alignment(horizontal="center", vertical="center")
+
+            for cell in ["A1", "E1", "A2", "E2"]:
+                ws[cell].font = bold
+
+            for col in range(1, 9):
+                cell = ws.cell(row=4, column=col)
+                cell.font = bold
+
+            for row in ws.iter_rows():
+                for cell in row:
+                    cell.alignment = center
+
+            larguras = {
+                1: 25,
+                2: 35,
+                3: 10,
+                4: 10,
+                5: 15,
+                6: 20,
+                7: 10,
+                8: 15
+            }
+
+            for col, largura in larguras.items():
+                ws.column_dimensions[get_column_letter(col)].width = largura
+                
+            wb.save(arquivo)
+                
+            print(f"Planilha salva em: {arquivo}")
+            
+        else:
+            print("Usuário cancelou")
 
     def executar(self):
 
