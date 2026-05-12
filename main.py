@@ -465,7 +465,10 @@ class Application:
         ).grid(row=7, column=0, columnspan=3, pady=5)
 
         gerarPlanilhaBtn = Button(
-            janelaConfig, text="Gerar Planilha Exemplo", font=self.fontePadrao, command=self.gerarPlanilha
+            janelaConfig,
+            text="Gerar Planilha Exemplo",
+            font=self.fontePadrao,
+            command=self.gerarPlanilha,
         )
         gerarPlanilhaBtn.grid(row=8, column=0, columnspan=3, pady=5)
 
@@ -491,28 +494,35 @@ class Application:
         self.centralizar_janela(janelaConfig)
 
     def gerarPlanilha(self):
-        
+
         arquivo = filedialog.asksaveasfilename(
-            title = "Salvar planilha",
+            title="Salvar planilha",
             defaultextension=".xlsx",
             filetypes=[("Arquivos Excel", "*.xlsx")],
-            initialfile="planilha_apontamento.xlsx"
+            initialfile="planilha_apontamento.xlsx",
         )
-        
+
         if arquivo:
-            
+
             dados = [
                 # Código, Nome, Cargo, Salário, Evento, Descrição, Ref./Valor, Tipo Empregado
                 [10, "Pedro Henrique", "AUX", 1000, 39, "100%", 10, "Mensalista"]
             ]
 
             colunas = [
-                "Código", "Nome", "Cargo", "Salário", "Evento", "Descrição", "Ref./Valor", "Tipo Empregado"
+                "Código",
+                "Nome",
+                "Cargo",
+                "Salário",
+                "Evento",
+                "Descrição",
+                "Ref./Valor",
+                "Tipo Empregado",
             ]
 
             df = pd.DataFrame(dados, columns=colunas)
 
-            with pd.ExcelWriter(arquivo, engine='openpyxl') as writer:
+            with pd.ExcelWriter(arquivo, engine="openpyxl") as writer:
 
                 df.to_excel(writer, index=False, startrow=3)
 
@@ -544,24 +554,15 @@ class Application:
                 for cell in row:
                     cell.alignment = center
 
-            larguras = {
-                1: 25,
-                2: 35,
-                3: 10,
-                4: 10,
-                5: 15,
-                6: 20,
-                7: 10,
-                8: 15
-            }
+            larguras = {1: 25, 2: 35, 3: 10, 4: 10, 5: 15, 6: 20, 7: 10, 8: 15}
 
             for col, largura in larguras.items():
                 ws.column_dimensions[get_column_letter(col)].width = largura
-                
+
             wb.save(arquivo)
-                
+
             print(f"Planilha salva em: {arquivo}")
-            
+
         else:
             print("Usuário cancelou")
 
